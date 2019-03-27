@@ -1,5 +1,5 @@
 #!/bin/bash -x
-## Preparing all the variables like IP, Hostname, etc, all of them from the container
+## Preparing all the variables like IP, Hostname, etc, all of them from the server
 RANDOMHAM=$(date +%s|sha256sum|base64|head -c 10)
 RANDOMSPAM=$(date +%s|sha256sum|base64|head -c 10)
 RANDOMVIRUS=$(date +%s|sha256sum|base64|head -c 10)
