@@ -6,12 +6,11 @@ RANDOMVIRUS=$(date +%s|sha256sum|base64|head -c 10)
 HOSTNAME=$(hostname -s)
 
 #Install a DNS Server
-if [ "$4" == "bind" ]; then
-    sudo apt-get update && sudo apt-get install -y bind9 bind9utils bind9-doc
-    echo "Installing Bind DNS Server"
-    sed "s/-u/-4 -u/g" /etc/default/bind9 > /etc/default/bind9.new
-    mv /etc/default/bind9.new /etc/default/bind9
-    rm /etc/bind/named.conf.options
+sudo apt-get update && sudo apt-get install -y bind9 bind9utils bind9-doc
+echo "Installing Bind DNS Server"
+sed "s/-u/-4 -u/g" /etc/default/bind9 > /etc/default/bind9.new
+mv /etc/default/bind9.new /etc/default/bind9
+rm /etc/bind/named.conf.options
 cat <<EOF >>/etc/bind/named.conf.options
 options {
 directory "/var/cache/bind";
@@ -52,35 +51,8 @@ cat <<EOF >/etc/bind/db.$1
     imap4     IN      A      $2
     smtp     IN      A      $2
 EOF
-    sudo service bind9 restart
-fi
-if [ "$4" == "dnsmasq" ]; then
-    echo "Installing dnsmasq DNS Server"
-    sudo apt-get update && sudo sudo apt-get install -y dnsmasq
-    echo "Configuring DNS Server"
-    mv /etc/dnsmasq.conf /etc/dnsmasq.conf.old
-cat <<EOF >>/etc/dnsmasq.conf
-server=8.8.8.8
-listen-address=127.0.0.1
-domain=$1
-mx-host=$1,$HOSTNAME.$1,0
-address=/$HOSTNAME.$1/$2
-EOF
-    sudo service dnsmasq restart
-else
-    echo "Installing dnsmasq DNS Server"
-    sudo apt-get update && sudo sudo apt-get install -y dnsmasq
-    echo "Configuring DNS Server"
-    mv /etc/dnsmasq.conf /etc/dnsmasq.conf.old
-cat <<EOF >>/etc/dnsmasq.conf
-server=8.8.8.8
-listen-address=127.0.0.1
-domain=$1
-mx-host=$1,$HOSTNAME.$1,0
-address=/$HOSTNAME.$1/$2
-EOF
-    sudo service dnsmasq restart
-fi
+sudo service bind9 restart
+
 ##Preparing the config files to inject
     echo "Creating the Scripts files"
     mkdir /tmp/zcs && cd /tmp/zcs
