@@ -5,7 +5,7 @@ RANDOMSPAM=$(date +%s|sha256sum|base64|head -c 10)
 RANDOMVIRUS=$(date +%s|sha256sum|base64|head -c 10)
 HOSTNAME=$(hostname -s)
 
-#Install a DNS Server
+##Install a DNS Server
 sudo apt-get update && sudo apt-get install -y bind9 bind9utils bind9-doc
 echo "Installing Bind DNS Server"
 sed "s/-u/-4 -u/g" /etc/default/bind9 > /etc/default/bind9.new
@@ -54,9 +54,9 @@ EOF
 sudo service bind9 restart
 
 ##Preparing the config files to inject
-    echo "Creating the Scripts files"
-    mkdir /tmp/zcs && cd /tmp/zcs
-    touch /tmp/zcs/installZimbraScript
+echo "Creating the Scripts files"
+mkdir /tmp/zcs && cd /tmp/zcs
+touch /tmp/zcs/installZimbraScript
 cat <<EOF >/tmp/zcs/installZimbraScript
 AVDOMAIN="$1"
 AVUSER="admin@$1"
