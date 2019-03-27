@@ -1,4 +1,14 @@
 #!/bin/bash -x
+
+# Zimbra mail server installation in Ubuntu 14.04 and 16.04
+# Author: Subhash (serverkaka.com)
+
+# Check if running as root
+if [ "$(id -u)" != "0" ]; then
+   echo "This script must be run as root" 1>&2
+   exit 1
+fi
+
 ## Preparing all the variables like IP, Hostname, etc, all of them from the server
 RANDOMHAM=$(date +%s|sha256sum|base64|head -c 10)
 RANDOMSPAM=$(date +%s|sha256sum|base64|head -c 10)
