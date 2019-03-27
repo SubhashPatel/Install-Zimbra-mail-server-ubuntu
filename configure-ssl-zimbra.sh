@@ -69,9 +69,9 @@ cp /opt/zimbra/ssl/letsencrypt/privkey.pem /opt/zimbra/ssl/zimbra/commercial/com
 sudo chown zimbra:zimbra /opt/zimbra/ssl/zimbra/commercial/commercial.key
 su - zimbra -c 'cd /opt/zimbra/ssl/letsencrypt/ && /opt/zimbra/bin/zmcertmgr deploycrt comm cert.pem chain.pem'
 
-# setting auto https redirect
-su - zimbra -c 'zmprov ms webmail.myserver.yourdomain.com zimbraReverseProxyMailMode redirect'
-
 # Restart Zimbra
 su - zimbra -c 'zmcontrol restart'
+
+# setting auto https redirect
+su - zimbra -c 'zmprov ms $mail_server_url zimbraReverseProxyMailMode redirect'
 fi
