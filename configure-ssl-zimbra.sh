@@ -14,7 +14,7 @@ read -p 'letsencrypt_email [xx@xx.xx]: ' letsencrypt_email
 read -p 'mail_server_url [xx.xx.xx]: ' mail_server_url
 
 # Check All variable have a value
-if [ -z $mail_server_url ]|| [ -z $letsencrypt_email ]
+if [ -z $mail_server_url ] || [ -z $letsencrypt_email ]
 then
       echo run script again please insert all value. do not miss any value
 else
