@@ -197,9 +197,6 @@ if [[ `lsb_release -rs` == "16.04" ]]; then
     echo "Installing Zimbra Collaboration injecting the configuration"
     /opt/zimbra/libexec/zmsetup.pl -c /tmp/zcs/installZimbraScript
     su - zimbra -c 'zmcontrol restart'
-    echo "You can access now to your Zimbra Collaboration Server"
-    echo "Admin Console: https://"$2":7071"
-    echo "Web Client: https://"$2
 fi
 if [[ `lsb_release -rs` == "14.04" ]]; then
     echo "Downloading Zimbra Collaboration 8.7.11 for Ubuntu 14.04"
@@ -210,9 +207,6 @@ if [[ `lsb_release -rs` == "14.04" ]]; then
     echo "Installing Zimbra Collaboration injecting the configuration"
     /opt/zimbra/libexec/zmsetup.pl -c /tmp/zcs/installZimbraScript
     su - zimbra -c 'zmcontrol restart'
-    echo "You can access now to your Zimbra Collaboration Server"
-    echo "Admin Console: https://"$2":7071"
-    echo "Web Client: https://"$2
 fi
 su - zimbra -c 'zmcontrol restart'
 
