@@ -211,11 +211,11 @@ if [[ `lsb_release -rs` == "14.04" ]]; then
 	/opt/zimbra/libexec/zmsetup.pl -c /tmp/zcs/installZimbraScript
 fi
 
+## Restart Zimbra
+su - zimbra -c 'zmcontrol restart'
+
 ## Add Crontab for server autostart at startup or reboot 
-crontab -l > mycron
-@reboot su - zimbra -c 'zmcontrol start'
-crontab mycron
-rm mycron
+cat <(crontab -l) <(echo "@reboot su - zimbra -c 'zmcontrol start'") | crontab -
 
 echo "You can access now to your Zimbra Collaboration Server"
 echo "Admin Console: https://"$2":7071"
