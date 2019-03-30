@@ -211,9 +211,6 @@ if [[ `lsb_release -rs` == "14.04" ]]; then
 	/opt/zimbra/libexec/zmsetup.pl -c /tmp/zcs/installZimbraScript
 fi
 
-## Restart Zimbra
-su - zimbra -c 'zmcontrol restart'
-
 ## Add Crontab for server autostart at startup or reboot 
 crontab -l > mycron
 @reboot su - zimbra -c 'zmcontrol start'
