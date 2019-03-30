@@ -196,7 +196,6 @@ if [[ `lsb_release -rs` == "16.04" ]]; then
     cd /tmp/zcs/zcs-* && ./install.sh -s < /tmp/zcs/installZimbra-keystrokes
     echo "Installing Zimbra Collaboration injecting the configuration"
     /opt/zimbra/libexec/zmsetup.pl -c /tmp/zcs/installZimbraScript
-    su - zimbra -c 'zmcontrol restart'
 fi
 if [[ `lsb_release -rs` == "14.04" ]]; then
     echo "Downloading Zimbra Collaboration 8.7.11 for Ubuntu 14.04"
@@ -206,7 +205,6 @@ if [[ `lsb_release -rs` == "14.04" ]]; then
     cd /tmp/zcs/zcs-* && ./install.sh -s < /tmp/zcs/installZimbra-keystrokes
     echo "Installing Zimbra Collaboration injecting the configuration"
     /opt/zimbra/libexec/zmsetup.pl -c /tmp/zcs/installZimbraScript
-    su - zimbra -c 'zmcontrol restart'
 fi
 su - zimbra -c 'zmcontrol restart'
 
