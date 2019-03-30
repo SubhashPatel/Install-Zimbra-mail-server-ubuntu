@@ -215,6 +215,13 @@ if [[ `lsb_release -rs` == "14.04" ]]; then
     echo "Web Client: https://"$2
 fi
 su - zimbra -c 'zmcontrol restart'
+
+## Add Crontab for server autostart at startup or reboot 
+crontab -l > mycron
+@reboot su - zimbra -c 'zmcontrol start'
+crontab mycron
+rm mycron
+
 echo "You can access now to your Zimbra Collaboration Server"
 echo "Admin Console: https://"$2":7071"
 echo "Web Client: https://"$2
