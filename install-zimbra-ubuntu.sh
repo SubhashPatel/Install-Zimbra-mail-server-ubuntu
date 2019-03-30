@@ -170,7 +170,8 @@ zimbra_require_interprocess_security="1"
 zimbra_server_hostname="$HOSTNAME.$1"
 INSTALL_PACKAGES="zimbra-core zimbra-ldap zimbra-logger zimbra-mta zimbra-snmp zimbra-store zimbra-apache zimbra-spell zimbra-memcached zimbra-proxy"
 EOF
-    touch /tmp/zcs/installZimbra-keystrokes
+
+touch /tmp/zcs/installZimbra-keystrokes
 cat <<EOF >/tmp/zcs/installZimbra-keystrokes
 y
 y
@@ -185,27 +186,32 @@ y
 y
 y
 y
+n
 y
 y
 EOF
+
+## Install Zimbra Mail Server
 if [[ `lsb_release -rs` == "16.04" ]]; then
-    echo "Downloading Zimbra Collaboration 8.7.11 for Ubuntu 16.04"
-    wget https://files.zimbra.com/downloads/8.7.11_GA/zcs-8.7.11_GA_1854.UBUNTU16_64.20170531151956.tgz
-    tar xzvf zcs-*
-    echo "Installing Zimbra Collaboration just the Software"
-    cd /tmp/zcs/zcs-* && ./install.sh -s < /tmp/zcs/installZimbra-keystrokes
-    echo "Installing Zimbra Collaboration injecting the configuration"
-    /opt/zimbra/libexec/zmsetup.pl -c /tmp/zcs/installZimbraScript
+	echo "Downloading Zimbra Collaboration 8.8.10 for Ubuntu 16.04"
+	wget https://files.zimbra.com/downloads/8.8.10_GA/zcs-8.8.10_GA_3039.UBUNTU16_64.20180928094617.tgz
+	tar xzvf zcs-*
+	echo "Installing Zimbra Collaboration just the Software"
+	cd /tmp/zcs/zcs-* && ./install.sh -s < /tmp/zcs/installZimbra-keystrokes
+	echo "Installing Zimbra Collaboration injecting the configuration"
+	/opt/zimbra/libexec/zmsetup.pl -c /tmp/zcs/installZimbraScript
 fi
 if [[ `lsb_release -rs` == "14.04" ]]; then
-    echo "Downloading Zimbra Collaboration 8.7.11 for Ubuntu 14.04"
-    wget https://files.zimbra.com/downloads/8.7.11_GA/zcs-8.7.11_GA_1854.UBUNTU14_64.20170531151956.tgz
-    tar xzvf zcs-*
-    echo "Installing Zimbra Collaboration just the Software"
-    cd /tmp/zcs/zcs-* && ./install.sh -s < /tmp/zcs/installZimbra-keystrokes
-    echo "Installing Zimbra Collaboration injecting the configuration"
-    /opt/zimbra/libexec/zmsetup.pl -c /tmp/zcs/installZimbraScript
+	echo "Downloading Zimbra Collaboration 8.8.10 for Ubuntu 16.04"
+	wget https://files.zimbra.com/downloads/8.8.10_GA/zcs-8.8.10_GA_3039.UBUNTU14_64.20180928094617.tgz
+	tar xzvf zcs-*
+	echo "Installing Zimbra Collaboration just the Software"
+	cd /tmp/zcs/zcs-* && ./install.sh -s < /tmp/zcs/installZimbra-keystrokes
+	echo "Installing Zimbra Collaboration injecting the configuration"
+	/opt/zimbra/libexec/zmsetup.pl -c /tmp/zcs/installZimbraScript
 fi
+
+## Restart Zimbra
 su - zimbra -c 'zmcontrol restart'
 
 ## Add Crontab for server autostart at startup or reboot 
