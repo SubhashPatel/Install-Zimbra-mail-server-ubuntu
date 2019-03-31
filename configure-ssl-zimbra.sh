@@ -73,5 +73,10 @@ su - zimbra -c 'cd /opt/zimbra/ssl/letsencrypt/ && /opt/zimbra/bin/zmcertmgr dep
 su - zimbra -c 'zmcontrol restart'
 
 # setting auto https redirect
-su - zimbra -c 'zmprov ms $mail_server_url zimbraReverseProxyMailMode redirect'
+cd /opt && touch https-redirect.sh && chown zimbra:zimbra https-redirect.sh && chmod +x https-redirect.sh
+cat <<EOF >>/opt/https-redirect.sh
+zmprov ms $mail_server_url zimbraReverseProxyMailMode redirect
+EOF
+su - zimbra -c '/opt/https-redirect.sh'
+rm /opt/https-redirect.sh
 fi
