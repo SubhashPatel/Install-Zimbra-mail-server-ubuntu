@@ -26,7 +26,7 @@ su - zimbra -c 'zmmailboxdctl stop'
 
 # Install git and letsencrypt
 cd /opt/
-apt-get install git
+apt-get install git -y
 git clone https://github.com/letsencrypt/letsencrypt
 cd letsencrypt
 
