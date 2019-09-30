@@ -69,14 +69,28 @@ cp /opt/zimbra/ssl/letsencrypt/privkey.pem /opt/zimbra/ssl/zimbra/commercial/com
 sudo chown zimbra:zimbra /opt/zimbra/ssl/zimbra/commercial/commercial.key
 su - zimbra -c 'cd /opt/zimbra/ssl/letsencrypt/ && /opt/zimbra/bin/zmcertmgr deploycrt comm cert.pem chain.pem'
 
-# Restart Zimbra
-su - zimbra -c 'zmcontrol restart'
-
 # setting auto https redirect
 cd /opt && touch https-redirect.sh && chown zimbra:zimbra https-redirect.sh && chmod +x https-redirect.sh
 cat <<EOF >>/opt/https-redirect.sh
-zmprov ms $mail_server_url zimbraReverseProxyMailMode redirect
+zmlocalconfig -e ldap_starttls_supported=1
+zmlocalconfig -e zimbra_require_interprocess_security=1
+zmlocalconfig -e ldap_starttls_required=true
+zmprov ms `zmhostname` zimbraReverseProxyMailMode redirect
+zmprov ms `zmhostname` zimbraMailMode https
+zmprov ms `zmhostname` zimbraReverseProxySSLToUpstreamEnabled TRUE
+zmprov ms `zmhostname` zimbraMailClearTextPasswordEnabled FALSE
+zmprov ms `zmhostname` zimbraImapCleartextLoginEnabled FALSE
+zmprov gs `zmhostname` zimbraReverseProxyImapStartTlsMode only
+zmprov ms `zmhostname` zimbraPop3CleartextLoginEnabled FALSE
+zmprov gs `zmhostname` zimbraReverseProxyPop3StartTlsMode only
+zmprov ms `zmhostname` zimbraMtaTlsAuthOnly TRUE
+zmlocalconfig -e postfix_smtp_tls_security_level=may
+zmprov ms `zmhostname` zimbraMtaTlsSecurityLevel may
+zmprov gs `zmhostname` zimbraAuthLdapStartTlsEnabled TRUE
 EOF
 su - zimbra -c '/opt/https-redirect.sh'
 rm /opt/https-redirect.sh
+
+# Restart Zimbra
+su - zimbra -c 'zmcontrol restart'
 fi
