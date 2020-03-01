@@ -24,6 +24,9 @@ else
 su - zimbra -c 'zmproxyctl stop'
 su - zimbra -c 'zmmailboxdctl stop'
 
+# fix: Install python virtuelenv and some extra of letsencrypt need
+pip install letsencrypt
+
 # Install git and letsencrypt
 cd /opt/
 apt-get install git -y
@@ -75,18 +78,18 @@ cat <<EOF >>/opt/https-redirect.sh
 zmlocalconfig -e ldap_starttls_supported=1
 zmlocalconfig -e zimbra_require_interprocess_security=1
 zmlocalconfig -e ldap_starttls_required=true
-zmprov ms `zmhostname` zimbraReverseProxyMailMode redirect
-zmprov ms `zmhostname` zimbraMailMode https
-zmprov ms `zmhostname` zimbraReverseProxySSLToUpstreamEnabled TRUE
-zmprov ms `zmhostname` zimbraMailClearTextPasswordEnabled FALSE
-zmprov ms `zmhostname` zimbraImapCleartextLoginEnabled FALSE
-zmprov gs `zmhostname` zimbraReverseProxyImapStartTlsMode only
-zmprov ms `zmhostname` zimbraPop3CleartextLoginEnabled FALSE
-zmprov gs `zmhostname` zimbraReverseProxyPop3StartTlsMode only
-zmprov ms `zmhostname` zimbraMtaTlsAuthOnly TRUE
+zmprov ms '$mail_server_url' zimbraReverseProxyMailMode redirect
+zmprov ms '$mail_server_url' zimbraMailMode https
+zmprov ms '$mail_server_url' zimbraReverseProxySSLToUpstreamEnabled TRUE
+zmprov ms '$mail_server_url' zimbraMailClearTextPasswordEnabled FALSE
+zmprov ms '$mail_server_url' zimbraImapCleartextLoginEnabled FALSE
+zmprov gs '$mail_server_url' zimbraReverseProxyImapStartTlsMode only
+zmprov ms '$mail_server_url' zimbraPop3CleartextLoginEnabled FALSE
+zmprov gs '$mail_server_url' zimbraReverseProxyPop3StartTlsMode only
+zmprov ms '$mail_server_url' zimbraMtaTlsAuthOnly TRUE
 zmlocalconfig -e postfix_smtp_tls_security_level=may
-zmprov ms `zmhostname` zimbraMtaTlsSecurityLevel may
-zmprov gs `zmhostname` zimbraAuthLdapStartTlsEnabled TRUE
+zmprov ms '$mail_server_url' zimbraMtaTlsSecurityLevel may
+zmprov gs '$mail_server_url' zimbraAuthLdapStartTlsEnabled TRUE
 EOF
 su - zimbra -c '/opt/https-redirect.sh'
 rm /opt/https-redirect.sh
