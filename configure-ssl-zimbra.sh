@@ -24,9 +24,6 @@ else
 su - zimbra -c 'zmproxyctl stop'
 su - zimbra -c 'zmmailboxdctl stop'
 
-# fix: Install python virtuelenv and some extra of letsencrypt need
-pip install letsencrypt
-
 # Install git and letsencrypt
 cd /opt/
 apt-get install git -y
